@@ -1,0 +1,27 @@
+{
+  "name": "davis bot",
+  "version": "1.0.0",
+  "description": "Discord bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "Alex Martin",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/uws": "latest",
+    "bufferutil": "latest",
+    "discord.js": "github:discordjs/discord.js",
+    "ejs": "latest",
+    "erlpack": "github:hammerandchisel/erlpack",
+    "libsodium-wrappers": "latest",
+    "node-opus": "latest",
+    "oauth-1-client": "latest",
+    "opusscript": "0.0.6",
+    "request": "latest",
+    "uws": "latest",
+    "youtube-search": "latest",
+    "ytdl-core": "latest",
+    "zlib-sync": "latest"
+  }
+}
