@@ -1,10 +1,10 @@
 module.exports = {
     prefix: '!',
     starboardStars: 5,
-    token: '',
+    token: process.env.BOT_TOKEN,
     keys: {
-        key: '',
-        secret: ''
+        key: process.env.KEY,
+        secret: process.env.SECRET
     },
-    ytKey: ''
+    ytKey: process.env.YT_KEY
 };

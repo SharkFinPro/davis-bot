@@ -8,6 +8,9 @@
   },
   "author": "Alex Martin",
   "license": "ISC",
+  "engines": {
+    "node": "8.9.4"
+  },
   "dependencies": {
     "@discordjs/uws": "latest",
     "bufferutil": "latest",
