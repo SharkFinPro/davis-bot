@@ -35,6 +35,13 @@ module.exports = {
         command: 'library/general/serverinfo.js',
         args: ''
     },
+    woah: {
+        enabled: true,
+        description: 'Woah there, SCOUT!',
+        type: 'general',
+        command: 'library/general/woah.js',
+        args: ''
+    },
     play: {
         enabled: true,
         description: 'Plays a song from YT',
