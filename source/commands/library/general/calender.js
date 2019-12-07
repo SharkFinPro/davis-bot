@@ -4,7 +4,7 @@ const Discord = require('discord.js'),
 
 module.exports = (message, commandList, config, server) => {
     let today = new Date();
-    let calendar = new Discord.MessageEmbed()
+    let calendar = new Discord.RichEmbed()
         .setColor(0x1E90FF)
         .setThumbnail('https://www.troop520redmond.org/system/files/public/graphics/520patch.png')
         .setAuthor(`Troop 520 Calendar`)

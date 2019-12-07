@@ -12,21 +12,10 @@
     "node": "8.9.4"
   },
   "dependencies": {
-    "@discordjs/uws": "latest",
-    "abort-controller": "^3.0.0",
-    "bufferutil": "latest",
-    "discord.js": "github:discordjs/discord.js",
-    "ejs": "latest",
-    "erlpack": "github:hammerandchisel/erlpack",
-    "ical": "latest",
-    "libsodium-wrappers": "latest",
-    "node-opus": "latest",
-    "oauth-1-client": "latest",
-    "opusscript": "latest",
-    "request": "latest",
-    "uws": "latest",
-    "youtube-search": "latest",
-    "ytdl-core": "^1.0.3",
-    "zlib-sync": "latest"
+    "bufferutil": "^4.0.1",
+    "discord.js": "^11.5.1",
+    "ical": "^0.6.0",
+    "libsodium-wrappers": "^0.7.6",
+    "request": "^2.88.0"
   }
 }

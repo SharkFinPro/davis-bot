@@ -8,7 +8,7 @@ module.exports = (message, commandList, config, server) => {
             commands[commandList[each].type].push(config.prefix + each + (commandList[each].args === '' ? '' : ' [' + commandList[each].args.join('] [') + ']') + ': ' + commandList[each].description);
         }
     }
-    let embed = new Discord.MessageEmbed()
+    let embed = new Discord.RichEmbed()
         .setColor(0xFF1493)
         .setTitle('Commands')
         .setFooter('GENTLEMEN!');
