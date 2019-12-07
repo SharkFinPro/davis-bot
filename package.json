@@ -13,19 +13,20 @@
   },
   "dependencies": {
     "@discordjs/uws": "latest",
+    "abort-controller": "^3.0.0",
     "bufferutil": "latest",
     "discord.js": "github:discordjs/discord.js",
     "ejs": "latest",
     "erlpack": "github:hammerandchisel/erlpack",
-    "ical": "^0.6.0",
+    "ical": "latest",
     "libsodium-wrappers": "latest",
     "node-opus": "latest",
     "oauth-1-client": "latest",
-    "opusscript": "0.0.6",
+    "opusscript": "latest",
     "request": "latest",
     "uws": "latest",
     "youtube-search": "latest",
-    "ytdl-core": "latest",
+    "ytdl-core": "^1.0.3",
     "zlib-sync": "latest"
   }
 }
