@@ -3,15 +3,17 @@ const Discord = require('discord.js');
 module.exports = (message, commandList, config, server) => {
     let commands = {};
     for (let each in commandList) {
-        commands[commandList[each].type] ? true : commands[commandList[each].type] = [];
-        commands[commandList[each].type].push(config.prefix + each + (commandList[each].args === '' ? '' : ' [' + commandList[each].args.join('] [') + ']') + ': ' + commandList[each].description);
+        if (commandList[each].enabled) {
+            commands[commandList[each].type] ? true : commands[commandList[each].type] = [];
+            commands[commandList[each].type].push(config.prefix + each + (commandList[each].args === '' ? '' : ' [' + commandList[each].args.join('] [') + ']') + ': ' + commandList[each].description);
+        }
     }
-    message.reply('Sending you commands in a DM!');
-    message.author.send({embed: new Discord.MessageEmbed()
+    let embed = new Discord.MessageEmbed()
         .setColor(0xFF1493)
         .setTitle('Commands')
-        .addField('General', commands.general)
-        .addField('Music', commands.music)
-        .addField('Moderator', commands.mod)
-        .setFooter('GENTLEMEN!')});
+        .setFooter('GENTLEMEN!');
+    if (commands.hasOwnProperty('general')) embed.addField('General', commands.general);
+    if (commands.hasOwnProperty('music')) embed.addField('Music', commands.music)
+    if (commands.hasOwnProperty('mod')) embed.addField('Moderator', commands.mod)
+    message.channel.send(embed);
 };

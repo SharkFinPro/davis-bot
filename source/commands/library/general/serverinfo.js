@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 module.exports = (message, commandList, config, server) => {
       message.channel.send(new Discord.MessageEmbed()
           .setColor(0x1E90FF)
-          .setThumbnail(message.guild.iconURL)
+          .setThumbnail(message.guild.iconURL())
           .setAuthor(`${message.guild.name} | Server Info`, message.guild.iconURL)
           .addField('Name', message.guild.name, true)
           .addField('Roles', message.guild.roles.size, true)

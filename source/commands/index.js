@@ -2,9 +2,16 @@
 module.exports = {
     help: {
         enabled: true,
-        description: 'Help',
+        description: 'Shows list of commands',
         type: 'general',
         command: 'library/general/help.js',
+        args: ''
+    },
+    calendar: {
+        enabled: true,
+        description: 'Shows monthly calender',
+        type: 'general',
+        command: 'library/general/calender.js',
         args: ''
     },
     cat: {
@@ -43,49 +50,49 @@ module.exports = {
         args: ''
     },
     play: {
-        enabled: true,
+        enabled: false,
         description: 'Plays a song from YT',
         type: 'music',
         command: 'library/music/play.js',
         args: ['url']
     },
     yt: {
-        enabled: true,
+        enabled: false,
         description: 'Searches songs to play on YT',
         type: 'music',
         command: 'library/music/yt.js',
         args: ['query']
     },
     skip: {
-        enabled: true,
+        enabled: false,
         description: 'Skips current song',
         type: 'music',
         command: 'library/music/skip.js',
         args: ''
     },
     pause: {
-        enabled: true,
+        enabled: false,
         description: 'Pauses current song',
         type: 'music',
         command: 'library/music/pause.js',
         args: ''
     },
     queue: {
-        enabled: true,
+        enabled: false,
         description: 'Displays queue',
         type: 'music',
         command: 'library/music/queue.js',
         args: ''
     },
     resume: {
-        enabled: true,
+        enabled: false,
         description: 'Resumes current song',
         type: 'music',
         command: 'library/music/resume.js',
         args: ''
     },
     volume: {
-        enabled: true,
+        enabled: false,
         description: 'Sets the current volume',
         type: 'music',
         command: 'library/music/volume.js',
@@ -99,7 +106,7 @@ module.exports = {
         args: ['num']
     },
     clearqueue: {
-        enabled: true,
+        enabled: false,
         description: 'Clears the queue.',
         type: 'mod',
         command: 'library/mod/clearQueue.js',

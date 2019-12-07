@@ -17,6 +17,7 @@
     "discord.js": "github:discordjs/discord.js",
     "ejs": "latest",
     "erlpack": "github:hammerandchisel/erlpack",
+    "ical": "^0.6.0",
     "libsodium-wrappers": "latest",
     "node-opus": "latest",
     "oauth-1-client": "latest",
