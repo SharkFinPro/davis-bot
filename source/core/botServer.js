@@ -3,13 +3,10 @@ const Discord = require('discord.js'),
     request = require('request'),
     commandList = require('../commands/index.js'),
     eventHandlers = require('../modules/eventHandlers.js'),
-    music = require('../modules/music.js'),
-    whiteList = ['419151003766620180'],
-    blackList = [];
+    music = require('../modules/music.js');
 
 module.exports = class botServer {
-    constructor(config, dev) {
-        this.devMode = dev || false;
+    constructor(config) {
         this.config = config;
         this.client = new Discord.Client();
         this.music = new music();
@@ -74,8 +71,6 @@ module.exports = class botServer {
             message.channel.send('__***G E N T L E M E N !***__');
             return message.delete();
         }
-        if (this.devMode && !whiteList.includes(message.author.id)) return;
-        if (blackList.includes(message.author.id)) return;
         if (message.mentions.users.has(this.client.user.id)) message.react('🤔');
         if (message.content === '<@543583560683225091> help') return require('../commands/' + commandList['help'].command)(message, commandList, this.config, this);
         if (!message.content.toLowerCase().startsWith(this.config.prefix)) return;
