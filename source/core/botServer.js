@@ -1,5 +1,6 @@
 "use strict";
 const Discord = require('discord.js'),
+    request = require('request'),
     commandList = require('../commands/index.js'),
     eventHandlers = require('../modules/eventHandlers.js'),
     music = require('../modules/music.js'),
@@ -66,8 +67,9 @@ module.exports = class botServer {
     }
 
     onMessage(message) {
-        if (message.channel.type !== 'text') return;
         if (message.author.bot) return;
+        if(message.channel.type === 'dm') request(`https://some-random-api.ml/chatbot?message=${message.content}`, (error, response, body) => message.channel.send(JSON.parse(body).response));
+        if (message.channel.type !== 'text') return;
         if (message.content.toLowerCase().includes('shower')) {
             message.channel.send('__***G E N T L E M E N !***__');
             return message.delete();
