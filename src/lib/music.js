@@ -1,4 +1,3 @@
-"use strict";
 const ytdl = require('ytdl-core');
 
 module.exports = class music {
@@ -48,7 +47,7 @@ module.exports = class music {
         if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
         if (!this.queue.playing) return message.channel.send(`No song is currently playing!`);
         this.queue.dispatcher.setVolume(volume / 100);
-        message.channel.send(`Set volume to ${this.queue.dispatcher.volume}`);
+        message.channel.send(`Set volume to ${this.queue.dispatcher.volume * 100}%`);
     }
 
     async addSong(message, id) {
@@ -103,4 +102,4 @@ module.exports = class music {
             this.queue.textChannel.send(`Started playing: **${song.title}**`);
         });
     }
-}
+};
