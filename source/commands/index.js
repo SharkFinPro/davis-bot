@@ -28,6 +28,13 @@ module.exports = {
         command: 'library/general/dog.js',
         args: ''
     },
+    meme: {
+        enabled: true,
+        description: 'Shows a random meme',
+        type: 'general',
+        command: 'library/general/meme.js',
+        args: ''
+    },
     userinfo: {
         enabled: true,
         description: 'Display info about a specified user',
@@ -50,49 +57,49 @@ module.exports = {
         args: ''
     },
     play: {
-        enabled: false,
+        enabled: true,
         description: 'Plays a song from YT',
         type: 'music',
         command: 'library/music/play.js',
         args: ['url']
     },
     yt: {
-        enabled: false,
+        enabled: true,
         description: 'Searches songs to play on YT',
         type: 'music',
         command: 'library/music/yt.js',
         args: ['query']
     },
     skip: {
-        enabled: false,
+        enabled: true,
         description: 'Skips current song',
         type: 'music',
         command: 'library/music/skip.js',
         args: ''
     },
     pause: {
-        enabled: false,
+        enabled: true,
         description: 'Pauses current song',
         type: 'music',
         command: 'library/music/pause.js',
         args: ''
     },
     queue: {
-        enabled: false,
+        enabled: true,
         description: 'Displays queue',
         type: 'music',
         command: 'library/music/queue.js',
         args: ''
     },
     resume: {
-        enabled: false,
+        enabled: true,
         description: 'Resumes current song',
         type: 'music',
         command: 'library/music/resume.js',
         args: ''
     },
     volume: {
-        enabled: false,
+        enabled: true,
         description: 'Sets the current volume',
         type: 'music',
         command: 'library/music/volume.js',
@@ -106,7 +113,7 @@ module.exports = {
         args: ['num']
     },
     clearqueue: {
-        enabled: false,
+        enabled: true,
         description: 'Clears the queue.',
         type: 'mod',
         command: 'library/mod/clearQueue.js',

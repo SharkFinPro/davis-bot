@@ -2,7 +2,7 @@
 const Discord = require('discord.js'),
     commandList = require('../commands/index.js'),
     eventHandlers = require('../modules/eventHandlers.js'),
-    //music = require('../modules/music.js'),
+    music = require('../modules/music.js'),
     whiteList = ['419151003766620180'],
     blackList = [];
 
@@ -11,7 +11,7 @@ module.exports = class botServer {
         this.devMode = dev || false;
         this.config = config;
         this.client = new Discord.Client();
-        //this.music = new music();
+        this.music = new music();
     }
 
     async init() {

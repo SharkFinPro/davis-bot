@@ -1,7 +1,7 @@
 "use strict";
 const ytdl = require('ytdl-core');
 
-class music {
+module.exports = class music {
     constructor(server) {
         this.server = server;
         this.queue = {
@@ -20,23 +20,23 @@ class music {
     }
 
     skip(message) {
-        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
+        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
         if (this.queue.songs.length === 0) return message.channel.send(`No songs are in the queue!`);
         this.queue.dispatcher.end();
         if (this.queue.songs.length > 0) message.channel.send("Skipped Current Song!");
     }
 
     pause(message) {
-        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
+        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
         if (!this.queue.playing) return message.channel.send(`No song is currently playing!`);
         if (this.queue.dispatcher.paused) return message.channel.send('Music is currently paused!');
-        this.queue.dispatcher.pause(true);
+        this.queue.dispatcher.pause();
         this.queue.playing = false;
         message.channel.send("Paused Current Song!");
     }
 
     resume(message) {
-        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
+        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
         if (this.queue.length === 0) return message.channel.send(`The queue is empty!`);
         if (!this.queue.dispatcher.paused) return message.channel.send('Music is currently playing!');
         this.queue.dispatcher.resume();
@@ -45,20 +45,21 @@ class music {
     }
 
     setVolume(message, volume) {
-        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
+        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
         if (!this.queue.playing) return message.channel.send(`No song is currently playing!`);
         this.queue.dispatcher.setVolume(volume / 100);
         message.channel.send(`Set volume to ${this.queue.dispatcher.volume}`);
     }
 
-    async addSong(message, args) {
-        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
-        let voiceChannel = message.member.voice.channel;
+    async addSong(message, id) {
+        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
+        let voiceChannel = message.member.voiceChannel;
+
         if (!voiceChannel.permissionsFor(message.client.user).has('CONNECT')) return message.channel.send(`I cannot connect to this voice channel!`);
         if (!voiceChannel.permissionsFor(message.client.user).has('SPEAK')) return message.channel.send(`I cannot speak in this voice channel!`);
 
-        if (!await ytdl.validateID(args[1]) && !await ytdl.validateURL(args[1])) return message.channel.send(`Cannot find song **${args[1]}**`);
-        let song = await ytdl.getInfo(args[1]);
+        if (!await ytdl.validateID(id) && !await ytdl.validateURL(id)) return message.channel.send(`Cannot find song **${id}**`);
+        let song = await ytdl.getInfo(id);
         if (this.queue.songs.length === 0) {
             this.queue.textChannel = message.channel;
             this.queue.voiceChannel = voiceChannel;
@@ -87,13 +88,13 @@ class music {
             return;
         }
         this.queue.voiceChannel.join().then((connection) => {
-            this.queue.dispatcher = connection.play(ytdl(song.video_url), {
+            this.queue.dispatcher = connection.playStream(ytdl(song.video_url), {
                 filter: 'audioonly',
                 volume: this.queue.volume,
                 passes: 5,
                 bitrate: 96000
             })
-            .on('finish', (reason) => {
+            .on('end', (reason) => {
                 this.queue.songs.shift();
                 this.play(guild, this.queue.songs[0]);
             })
@@ -103,5 +104,3 @@ class music {
         });
     }
 }
-
-module.exports = music;
