@@ -110,7 +110,7 @@ module.exports = {
         switch(messageReaction.emoji.name) {
             case '⭐':
                 let starBoardHasMessage = false;
-                await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
+                await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').fetchMessages()
                     .then((messages) => {
                         messages.forEach((message) => {
                             if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) starBoardHasMessage = true;
@@ -124,7 +124,7 @@ module.exports = {
                     .addField('Message', `[${messageReaction.message.content !== '' ? messageReaction.message : 'Jump To'}](${messageReaction.message.url})`)
                     .setImage(messageReaction.message.attachments.first() ? messageReaction.message.attachments.first().url : ''));
                 else {
-                    await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
+                    await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').fetchMessages()
                         .then((messages) => {
                             messages.forEach((message) => {
                                 if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) message.edit(new Discord.RichEmbed()
@@ -143,7 +143,7 @@ module.exports = {
     messageReactionRemove: async (messageReaction, user) => {
         switch(messageReaction.emoji.name) {
             case '⭐':
-                await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
+                await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').fetchMessages()
                     .then((messages) => {
                         messages.forEach((message) => {
                             if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) {

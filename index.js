@@ -19,7 +19,7 @@ client.on('raw', async (event) => {
         const { d: data } = event;
         const channel = client.channels.get(data.channel_id);
         if (channel.messages.has(data.message_id)) return;
-        const message = await channel.messages.fetch(data.message_id);
+        const message = await channel.fetchMessage(data.message_id);
         client.emit(event.t === 'MESSAGE_REACTION_ADD' ? 'messageReactionAdd' : 'messageReactionRemove', message.reactions.get(data.emoji.id || data.emoji.name), client.users.get(data.user_id));
     }
 });
