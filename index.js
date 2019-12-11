@@ -11,7 +11,7 @@ const music = new Music();
 client.login(config.token);
 client.on('error', console.error);
 client.on('ready', async () => {
-    client.user.setActivity(`!help`);
+    client.user.setActivity(`${config.prefix}help`);
     console.log(`Logged in as ${client.user.tag}`);
 });
 client.on('raw', async (event) => {

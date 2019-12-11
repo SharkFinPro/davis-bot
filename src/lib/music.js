@@ -88,9 +88,9 @@ module.exports = class music {
         }
         this.queue.voiceChannel.join().then((connection) => {
             this.queue.dispatcher = connection.playStream(ytdl(song.video_url), {
-                filter: 'audioonly',
+                seek: 0,
                 volume: this.queue.volume,
-                passes: 5,
+                passes: 2,
                 bitrate: 96000
             })
             .on('end', (reason) => {
