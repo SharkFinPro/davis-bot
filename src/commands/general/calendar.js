@@ -18,12 +18,15 @@ module.exports = {
                 let today = new Date();
                 let startDate = new Date(ev.start);
                 let endDate = new Date(ev.end);
+                console.log("hi");
                 if (startDate.getFullYear() === today.getFullYear()) {
                     if (startDate.getMonth() + 1 === today.getMonth() + 1) {
                         if (ev.location !== '') {
+                            console.log("hi2");
                             if (startDate.getDate() === endDate.getDate()) calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()} @${ev.location} ${startDate.toLocaleTimeString().replace(/:\d+ /, ' ')} > ${endDate.toLocaleTimeString().replace(/:\d+ /, ' ')}`, `${ev.summary}`);
                             else calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()} @${ev.location}`, `${ev.summary}`);
                         } else {
+                            console.log("hi3");
                             if (startDate.getDate() === endDate.getDate()) calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()} ${startDate.toLocaleTimeString().replace(/:\d+ /, ' ')} > ${endDate.toLocaleTimeString().replace(/:\d+ /, ' ')}`, `${ev.summary}`);
                             else calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()}`, `${ev.summary}`);
                         }
