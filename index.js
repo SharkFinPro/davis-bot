@@ -27,10 +27,6 @@ client.on('message', (message) => {
     if (message.author.bot) return;
     if(message.channel.type === 'dm') request(`https://some-random-api.ml/chatbot?message=${message.content}`, (error, response, body) => message.channel.send(JSON.parse(body).response));
     if (message.channel.type !== 'text') return;
-    if (message.content.toLowerCase().includes('shower')) {
-        message.channel.send('__***G E N T L E M E N !***__');
-        return message.delete();
-    }
     if (message.mentions.users.has(client.user.id)) message.react('🤔');
     if (message.content === `<@${client.user.id}> help`) return commandList['help'].command(message, commandList, config, this);
     if (!message.content.toLowerCase().startsWith(config.prefix)) return;

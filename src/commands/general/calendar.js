@@ -12,7 +12,7 @@ module.exports = {
             .setColor(0x1E90FF)
             .setThumbnail('https://www.troop520redmond.org/system/files/public/graphics/520patch.png')
             .setAuthor(`Troop 520 Calendar`)
-        ical.fromURL('https://redmond520.mytroop.us/ical/feed/c2150783-afd0-460a-8991-8392632e75b9', {}, function (err, data) {
+        ical.fromURL('https://redmond520.mytroop.us/ical/feed/c2150783-afd0-460a-8991-8392632e75b9', {}, (err, data) => {
             let today = new Date();
             for (let k in data) {
                 let ev = data[k];
