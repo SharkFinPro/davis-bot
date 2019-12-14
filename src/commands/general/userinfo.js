@@ -8,7 +8,7 @@ module.exports = {
     command: (message, commandList, config, music) => {
         let user = message.mentions.users.first() ? message.mentions.users.first() : message.author,
             presence = (message.author.id === user.id && user.presence.status === 'offline') ? 'invisible' : user.presence.status;
-        message.channel.send(new Discord.RichEmbed()
+        message.channel.send(new Discord.MessageEmbed()
             .setColor('#0FF0FF')
             .setThumbnail(user.displayAvatarURL)
             .addField('Requested user', user.username, true)

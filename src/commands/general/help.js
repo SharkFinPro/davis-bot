@@ -13,7 +13,7 @@ module.exports = {
                 commands[commandList[each].type].push(config.prefix + each + (commandList[each].args === '' ? '' : ' [' + commandList[each].args.join('] [') + ']') + ': ' + commandList[each].description);
             }
         }
-        let embed = new Discord.RichEmbed()
+        let embed = new Discord.MessageEmbed()
             .setColor(0xFF1493)
             .setTitle('Commands')
             .setFooter('GENTLEMEN!');

@@ -8,7 +8,7 @@ module.exports = {
     command: (message, commandList, config, music) => {
         let queue = music.queue.songs;
         if (queue.length === 0) return message.channel.send('The queue is empty!');
-        let embed = new Discord.RichEmbed()
+        let embed = new Discord.MessageEmbed()
             .setColor(0x008B00)
             .setTitle('**Queue**')
             .addField(`**1 [playing]**) **${queue[0].title}**`, queue[0].video_url);

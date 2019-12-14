@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "bufferutil": "^4.0.1",
-    "discord.js": "^11.5.1",
+    "discord.js": "github:discordjs/discord.js",
     "ical": "^0.6.0",
     "libsodium-wrappers": "^0.7.6",
     "opusscript": "0.0.7",

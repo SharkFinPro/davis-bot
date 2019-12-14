@@ -19,14 +19,14 @@ module.exports = class music {
     }
 
     skip(message) {
-        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
+        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
         if (this.queue.songs.length === 0) return message.channel.send(`No songs are in the queue!`);
         this.queue.dispatcher.end();
         if (this.queue.songs.length > 0) message.channel.send("Skipped Current Song!");
     }
 
     pause(message) {
-        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
+        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
         if (!this.queue.playing) return message.channel.send(`No song is currently playing!`);
         if (this.queue.dispatcher.paused) return message.channel.send('Music is currently paused!');
         this.queue.dispatcher.pause();
@@ -35,7 +35,7 @@ module.exports = class music {
     }
 
     resume(message) {
-        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
+        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
         if (this.queue.length === 0) return message.channel.send(`The queue is empty!`);
         if (!this.queue.dispatcher.paused) return message.channel.send('Music is currently playing!');
         this.queue.dispatcher.resume();
@@ -44,15 +44,15 @@ module.exports = class music {
     }
 
     setVolume(message, volume) {
-        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
+        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
         if (!this.queue.playing) return message.channel.send(`No song is currently playing!`);
         this.queue.dispatcher.setVolume(volume / 100);
         message.channel.send(`Set volume to ${this.queue.dispatcher.volume * 100}%`);
     }
 
     async addSong(message, id) {
-        if (!message.member.voiceChannel) return message.reply(`Please be in a voice channel first!`);
-        let voiceChannel = message.member.voiceChannel;
+        if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
+        let voiceChannel = message.member.voice.channel;
 
         if (!voiceChannel.permissionsFor(message.client.user).has('CONNECT')) return message.channel.send(`I cannot connect to this voice channel!`);
         if (!voiceChannel.permissionsFor(message.client.user).has('SPEAK')) return message.channel.send(`I cannot speak in this voice channel!`);
@@ -87,14 +87,14 @@ module.exports = class music {
             return;
         }
         this.queue.voiceChannel.join().then((connection) => {
-            this.queue.dispatcher = connection.playStream(ytdl(song.video_url, {
+            this.queue.dispatcher = connection.play(ytdl(song.video_url, {
                 quality: 'highestaudio',
                 filter: 'audioonly'
             }), {
                 seek: 0,
                 volume: this.queue.volume,
                 passes: 2,
-                bitrate: 96000
+                bitrate: 'auto'
             })
             .on('end', (reason) => {
                 this.queue.songs.shift();

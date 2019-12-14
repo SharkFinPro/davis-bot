@@ -6,7 +6,7 @@ module.exports = {
     type: 'general',
     args: '',
     command: (message, commandList, config, music) => {
-        message.channel.send(new Discord.RichEmbed()
+        message.channel.send(new Discord.MessageEmbed()
             .setColor(0x1E90FF)
             .setThumbnail(message.guild.iconURL)
             .setAuthor(`${message.guild.name} | Server Info`, message.guild.iconURL)
