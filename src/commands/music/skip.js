@@ -3,5 +3,5 @@ module.exports = {
     description: 'Skips current song',
     type: 'music',
     args: '',
-    command: (message, commandList, config, music) => music.skip(message)
+    command: (message, bot) => bot.music.skip(message)
 };

@@ -6,8 +6,8 @@ module.exports = {
     description: 'Searches songs to play on YT',
     type: 'music',
     args: ['query'],
-    command: (message, commandList, config, music) => {
-        YouTube.setKey(config.ytKey);
+    command: (message, bot) => {
+        YouTube.setKey(bot.config.ytKey);
         if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
         YouTube.search(message.content.split(' ').splice(1).join(' '), 20, (err, results) => {
             if (err) return message.channel.send(`**ERROR**: ${err}`);
@@ -23,23 +23,23 @@ module.exports = {
                 .on('collect', (r) => {
                     switch(r.emoji.name) {
                       case '1⃣':
-                          music.addSong(message, results[0].id.videoId);
+                          bot.music.addSong(message, results[0].id.videoId);
                           collector.stop();
                           break;
                       case '2⃣':
-                          music.addSong(message, results[1].id.videoId);
+                          bot.music.addSong(message, results[1].id.videoId);
                           collector.stop();
                           break;
                       case '3⃣':
-                          music.addSong(message, results[2].id.videoId);
+                          bot.music.addSong(message, results[2].id.videoId);
                           collector.stop();
                           break;
                       case '4⃣':
-                          music.addSong(message, results[3].id.videoId);
+                          bot.music.addSong(message, results[3].id.videoId);
                           collector.stop();
                           break;
                       case '5⃣':
-                          music.addSong(message, results[4].id.videoId);
+                          bot.music.addSong(message, results[4].id.videoId);
                           collector.stop();
                           break;
                     }

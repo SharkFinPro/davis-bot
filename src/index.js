@@ -31,11 +31,11 @@ const bot = {
         }
         if (message.channel.type !== 'text') return;
         if (message.mentions.users.has(this.client.user.id)) message.react('🤔');
-        if (message.content === `<@!${this.client.user.id}> help`) return this.commandList['help'].command(message, this.commandList, this.config, this.music);
+        if (message.content === `<@!${this.client.user.id}> help`) return this.commandList['help'].command(message, this);
         if (!message.content.toLowerCase().startsWith(this.config.prefix)) return;
         const command = message.content.toLowerCase().split(' ')[0].substring(this.config.prefix.length, message.content.toLowerCase().split(' ')[0].length);
         if (!Object.keys(this.commandList).includes(command)) return message.react('❌');
         if (!this.commandList[command].enabled) return message.reply(`${this.config.prefix}**${command}** is currently disabled!`);
-        this.commandList[command].command(message, this.commandList, this.config, this.music);
+        this.commandList[command].command(message, this);
     }
 }.initBot();

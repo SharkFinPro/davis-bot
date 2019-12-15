@@ -3,5 +3,5 @@ module.exports = {
     description: 'Woah there, SCOUT!',
     args: '',
     type: 'general',
-    command: (message, commandList, config, music) => message.channel.send('**Woah there, SCOUT!**')
+    command: (message, bot) => message.channel.send('**Woah there, SCOUT!**')
 };

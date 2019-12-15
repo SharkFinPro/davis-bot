@@ -5,8 +5,8 @@ module.exports = {
     description: 'Displays queue',
     type: 'music',
     args: '',
-    command: (message, commandList, config, music) => {
-        let queue = music.queue.songs;
+    command: (message, bot) => {
+        let queue = bot.music.queue.songs;
         if (queue.length === 0) return message.channel.send('The queue is empty!');
         let embed = new Discord.MessageEmbed()
             .setColor(0x008B00)

@@ -6,7 +6,7 @@ module.exports = {
     description: 'Shows the next 15 scouting activities',
     type: 'general',
     args: '',
-    command: (message, commandList, config, music) => {
+    command: (message, bot) => {
         let today = new Date();
         let calendar = new Discord.MessageEmbed()
             .setColor(0x1E90FF)

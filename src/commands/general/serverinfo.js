@@ -5,11 +5,11 @@ module.exports = {
     description: 'Display info about the server',
     type: 'general',
     args: '',
-    command: (message, commandList, config, music) => {
+    command: (message, bot) => {
         message.channel.send(new Discord.MessageEmbed()
             .setColor(0x1E90FF)
-            .setThumbnail(message.guild.iconURL)
-            .setAuthor(`${message.guild.name} | Server Info`, message.guild.iconURL)
+            .setThumbnail(message.guild.iconURL())
+            .setAuthor(`${message.guild.name} | Server Info`, message.guild.iconURL())
             .addField('Name', message.guild.name, true)
             .addField('Roles', message.guild.roles.size, true)
             .addField('Members', message.guild.memberCount, true)

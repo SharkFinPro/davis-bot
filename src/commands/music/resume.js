@@ -3,5 +3,5 @@ module.exports = {
     description: 'Resumes current song',
     type: 'music',
     args: '',
-    command: (message, commandList, config, music) => music.resume(message)
+    command: (message, bot) => bot.music.resume(message)
 };
