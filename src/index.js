@@ -1,16 +1,16 @@
 const Discord = require('discord.js'),
-    eventHandlers = require('./src/lib/eventHandlers.js'),
+    eventHandlers = require('./lib/eventHandlers.js'),
     readdirAsync = require('util').promisify(require('fs').readdir);
 
 const bot = {
     client: new Discord.Client({partials: ['MESSAGE']}),
-    music: new (require('./src/lib/music.js'))(),
+    music: new (require('./lib/music.js'))(),
     commandList: {},
     config: require('./config.js'),
     initBot: async function() {
         await readdirAsync('./src/commands').then(async (directories) => {
             for (let dir of directories) await readdirAsync('./src/commands/' + dir).then((fi) => {
-                    for (let f of fi) this.commandList[f.split('.js').join('')] = require('./src/commands/' + dir + '/' + f);
+                    for (let f of fi) this.commandList[f.split('.js').join('')] = require('./commands/' + dir + '/' + f);
                 });
         });
         this.client.login(this.config.token);

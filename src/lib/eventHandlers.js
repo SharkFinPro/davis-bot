@@ -1,5 +1,5 @@
 const Discord = require('discord.js'),
-    config = require('../../config.js');
+    config = require('../config.js');
 
 module.exports = {
     channelCreate: async (channel) => {
