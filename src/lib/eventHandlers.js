@@ -20,21 +20,6 @@ module.exports = {
             .setTimestamp()
             .setColor('#ff470f'));
     },
-    channelPinsUpdate: async (channel, time) => {
-
-    },
-    channelUpdate: async (oldChannel, newChannel) => {
-
-    },
-    emojiCreate: async (emoji) => {
-
-    },
-    emojiDelete: async (emoji) => {
-
-    },
-    emojiUpdate: async (oldEmoji, newEmoji) => {
-
-    },
     guildBanAdd: async (guild, user) => {
         guild.channels.find(channel => channel.name === 'logs').send(new Discord.MessageEmbed()
             .setAuthor('Member Banned', user.displayAvatarURL())
@@ -53,9 +38,6 @@ module.exports = {
             .setTimestamp()
             .setColor('#117ea6'));
     },
-    guildIntegrationsUpdate: async guild => {
-
-    },
     guildMemberAdd: async (member) => {
         member.guild.channels.find(channel => channel.name === 'logs').send(new Discord.MessageEmbed()
             .setAuthor('Member Joined', member.user.displayAvatarURL())
@@ -65,9 +47,6 @@ module.exports = {
             .setTimestamp()
             .setColor('#23d160'));
     },
-    guildMemberAvailable: async (member) => {
-
-    },
     guildMemberRemove: async (member) => {
         member.guild.channels.find(channel => channel.name === 'logs').send(new Discord.MessageEmbed()
             .setAuthor('Member Left', member.user.displayAvatarURL())
@@ -76,18 +55,6 @@ module.exports = {
             .setFooter(`User ID: ${member.user.id}`)
             .setTimestamp()
             .setColor('#ff470f'));
-    },
-    guildMembersChunk: async (members, guild) => {
-
-    },
-    guildMemberSpeaking: async (member, speaking) => {
-
-    },
-    guildMemberUpdate: async (oldMember, newMember) => {
-
-    },
-    guildUpdate: async (oldGuild, newGuild) => {
-
     },
     messageDelete: async (message) => {
         if (message.channel.type === 'dm') return;
@@ -155,9 +122,6 @@ module.exports = {
                 break;
         }
     },
-    messageReactionRemoveAll: async (message) => {
-
-    },
     messageUpdate: async (oldMessage, newMessage) => {
         if (oldMessage.channel.type === 'dm') return;
         if (oldMessage.content === '' || newMessage.content === '') return;
@@ -169,9 +133,6 @@ module.exports = {
             .setFooter(`User ID: ${oldMessage.author.id}`)
             .setTimestamp()
             .setColor('#117ea6'));
-    },
-    presenceUpdate: async (oldPresence, newPresence) => {
-
     },
     roleCreate: async (role) => {
         role.guild.channels.find((channel) => channel.name === 'logs').send(new Discord.MessageEmbed()
@@ -186,23 +147,5 @@ module.exports = {
             .setDescription(`Role Deleted: ${role.name}`)
             .setTimestamp()
             .setColor('#ff470f'));
-    },
-    roleUpdate: async (oldRole, newRole) => {
-
-    },
-    typingStart: async (channel, user) => {
-
-    },
-    typingStop: async (channel, user) => {
-
-    },
-    userUpdate: async (oldUser, newUser) => {
-
-    },
-    voiceStateUpdate: async (oldState, newState) => {
-
-    },
-    webhookUpdate: async (channel) => {
-
     },
 };
