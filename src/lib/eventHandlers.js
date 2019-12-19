@@ -76,25 +76,26 @@ module.exports = {
         switch(messageReaction.emoji.name) {
             case '⭐':
                 let starBoardHasMessage = false;
+                let messageReaction2 = await messageReaction.message.guild.channels.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
+                messageReaction = messageReaction2.reactions.get('⭐');
                 await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
                     .then((messages) => {
                         messages.forEach((message) => {
                             if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) starBoardHasMessage = true;
                         });
                     });
-                if (messageReaction.count === config.starboardStars && !starBoardHasMessage) {
-                    messageReaction.message = await messageReaction.message.guild.channels.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
+                if (messageReaction.count >= config.starboardStars && !starBoardHasMessage) {
                     messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').send(new Discord.MessageEmbed()
                         .setColor(0x00FF00)
                         .setAuthor(`${messageReaction.message.author.username}#${messageReaction.message.author.discriminator}`, messageReaction.message.author.avatarURL())
-                        .setFooter(`${messageReaction.message.reactions.find((reaction) => messageReaction.emoji.name === '⭐').count}⭐ | ${messageReaction.message.id}`)
+                        .setFooter(`${messageReaction.count}⭐ | ${messageReaction.message.id}`)
                         .addField('Channel', messageReaction.message.channel)
                         .addField('Message', `[${messageReaction.message.content !== '' ? messageReaction.message : 'Jump To'}](${messageReaction.message.url})`)
                         .setImage(messageReaction.message.attachments.first() ? messageReaction.message.attachments.first().url : ''));
                 } else await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
                     .then((messages) => {
                         messages.forEach((message) => {
-                            if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`${messageReaction.message.reactions.find((reaction) => reaction.emoji.name === '⭐').count}⭐ | ${messageReaction.message.id}`));
+                            if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`${messageReaction.count}⭐ | ${messageReaction.message.id}`));
                         });
                     });
                 break;
@@ -105,16 +106,13 @@ module.exports = {
             case '⭐':
                 await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
                     .then((messages) => {
-                        messages.forEach((message) => {
+                        messages.forEach(async (message) => {
                             if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) {
-                                if (messageReaction.message.reactions.find((reaction) => messageReaction.emoji.name === '⭐')) message.edit(new Discord.MessageEmbed()
-                                    .setColor(0x00FF00)
-                                    .setAuthor(`${messageReaction.message.author.username}#${messageReaction.message.author.discriminator}`, messageReaction.message.author.avatarURL())
-                                    .setFooter(`${messageReaction.message.reactions.find((reaction) => messageReaction.emoji.name === '⭐').count}⭐ | ${messageReaction.message.id}`)
-                                    .addField('Channel', messageReaction.message.channel)
-                                    .addField('Message', `[${messageReaction.message.content !== '' ? messageReaction.message : 'Jump To'}](${messageReaction.message.url})`)
-                                    .setImage(messageReaction.message.attachments.first() ? messageReaction.message.attachments.first().url : ''));
-                                else message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`0⭐ | ${messageReaction.message.id}`));
+                                let messageReaction2 = await messageReaction.message.guild.channels.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
+                                let messageId = messageReaction.message.id;
+                                messageReaction = messageReaction2.reactions.get('⭐');
+                                messageReaction2 = messageReaction2.channel.messages.get(messageId);
+                                message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`${messageReaction ? messageReaction.count : 0}⭐ | ${messageReaction2.id}`));
                             }
                         });
                     })
