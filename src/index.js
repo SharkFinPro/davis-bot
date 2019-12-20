@@ -26,7 +26,7 @@ const bot = {
         if (message.author.bot) return;
         if (message.channel.type === 'dm') {
             message.channel.startTyping();
-            require('request')(`https://some-random-api.ml/chatbot?message=${message.content}`, (error, response, body) => message.channel.send(JSON.parse(body).response));
+            require('node-fetch')(`https://some-random-api.ml/chatbot?message=${message.content}`).then(res => res.text().then(body => message.channel.send(JSON.parse(body).response)));
             message.channel.stopTyping();
         }
         if (message.channel.type !== 'text') return;
