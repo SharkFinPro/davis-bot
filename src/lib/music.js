@@ -52,13 +52,13 @@ module.exports = class music {
 
     async addSong(message, id) {
         if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
-        let voiceChannel = message.member.voice.channel;
+        const voiceChannel = message.member.voice.channel;
 
         if (!voiceChannel.permissionsFor(message.client.user).has('CONNECT')) return message.channel.send(`I cannot connect to this voice channel!`);
         if (!voiceChannel.permissionsFor(message.client.user).has('SPEAK')) return message.channel.send(`I cannot speak in this voice channel!`);
 
         if (!await ytdl.validateID(id) && !await ytdl.validateURL(id)) return message.channel.send(`Cannot find song **${id}**`);
-        let song = await ytdl.getInfo(id);
+        const song = await ytdl.getInfo(id);
         if (this.queue.songs.length === 0) {
             this.queue.textChannel = message.channel;
             this.queue.voiceChannel = voiceChannel;

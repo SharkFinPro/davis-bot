@@ -76,7 +76,7 @@ module.exports = {
         switch(messageReaction.emoji.name) {
             case '⭐':
                 let starBoardHasMessage = false;
-                let messageReaction2 = await messageReaction.message.guild.channels.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
+                const messageReaction2 = await messageReaction.message.guild.channels.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
                 messageReaction = messageReaction2.reactions.get('⭐');
                 await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
                     .then((messages) => {
@@ -109,7 +109,7 @@ module.exports = {
                         messages.forEach(async (message) => {
                             if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) {
                                 let messageReaction2 = await messageReaction.message.guild.channels.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
-                                let messageId = messageReaction.message.id;
+                                const messageId = messageReaction.message.id;
                                 messageReaction = messageReaction2.reactions.get('⭐');
                                 messageReaction2 = messageReaction2.channel.messages.get(messageId);
                                 message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`${messageReaction ? messageReaction.count : 0}⭐ | ${messageReaction2.id}`));

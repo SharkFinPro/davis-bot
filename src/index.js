@@ -9,8 +9,8 @@ const bot = {
     config: require('./config.js'),
     initBot: async function() {
         await readdirAsync('./src/commands').then(async (directories) => {
-            for (let dir of directories) await readdirAsync('./src/commands/' + dir).then((fi) => {
-                    for (let f of fi) this.commandList[f.split('.js').join('')] = require('./commands/' + dir + '/' + f);
+            for (const dir of directories) await readdirAsync('./src/commands/' + dir).then((files) => {
+                    for (const f of files) this.commandList[f.split('.js').join('')] = require('./commands/' + dir + '/' + f);
                 });
         });
         this.client.login(this.config.token);
@@ -18,7 +18,7 @@ const bot = {
         this.client.on('ready', async() => {
             this.client.user.setActivity(`${this.config.prefix}help`);
             console.log(`Logged in as ${this.client.user.tag}`);
-            for (let each in eventHandlers) this.client.on(each, eventHandlers[each]);
+            for (const each in eventHandlers) this.client.on(each, eventHandlers[each]);
             this.client.on('message', message => this.onMessage(message));
         });
     },

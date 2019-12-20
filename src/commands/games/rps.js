@@ -20,7 +20,7 @@ module.exports = {
         return 2;
     },
     command: function(message, bot) {
-        let args = message.content.toLowerCase().split(' ');
+        const args = message.content.toLowerCase().split(' ');
         let choice;
         if (args[1]) if (args[1].toLowerCase() === "rock" || args[1].toLowerCase() === "paper" || args[1].toLowerCase() === "scissors") choice = args[1].toLowerCase();
         if (!(choice === "rock" || choice === "paper" || choice === "scissors")) return message.channel.send("Please choose either rock, paper, or scissors!");

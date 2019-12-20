@@ -6,9 +6,9 @@ module.exports = {
     type: 'music',
     args: '',
     command: (message, bot) => {
-        let queue = bot.music.queue.songs;
+        const queue = bot.music.queue.songs;
         if (queue.length === 0) return message.channel.send('The queue is empty!');
-        let embed = new Discord.MessageEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor(0x008B00)
             .setTitle('**Queue**')
             .addField(`**1 [playing]**) **${queue[0].title}**`, queue[0].video_url);

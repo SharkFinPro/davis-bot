@@ -12,7 +12,7 @@ module.exports = {
         YouTube.search(message.content.split(' ').splice(1).join(' '), 20, (err, results) => {
             if (err) return message.channel.send(`**ERROR**: ${err}`);
             results = results.items.filter((result) => result.id.kind === 'youtube#video').slice(0, 5);;
-            let embed = new Discord.MessageEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setColor(0x008B00)
                 .setTitle(`Top 5 results for **${message.content.split(' ').splice(1).join(' ')}**`);
             for (let i = 0; i < results.length; i++) embed.addField(`**${i+1}**) **${results[i].snippet.title}**`, 'https://www.youtube.com/watch?v=' + results[i].id.videoId);
