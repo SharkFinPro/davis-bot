@@ -8,17 +8,17 @@ const bot = {
     commandList: {},
     config: require('./config.js'),
     initBot: async function() {
-        await readdirAsync('./src/commands').then(async (directories) => {
-            for (const dir of directories) await readdirAsync('./src/commands/' + dir).then((files) => {
-                    for (const f of files) this.commandList[f.split('.js').join('')] = require('./commands/' + dir + '/' + f);
-                });
-        });
+        const directories = await readdirAsync('./src/commands');
+        for (const dir of directories) {
+            const files = await readdirAsync('./src/commands/' + dir);
+            for (const f of files) this.commandList[f.split('.js').join('')] = require('./commands/' + dir + '/' + f);
+        }
         this.client.login(this.config.token);
         this.client.on('error', console.error);
         this.client.on('ready', async() => {
             this.client.user.setActivity(`${this.config.prefix}help`);
             console.log(`Logged in as ${this.client.user.tag}`);
-            for (const each in eventHandlers) this.client.on(each, eventHandlers[each]);
+            for (const each in eventHandlers) this.client.on(each, (a, b) => eventHandlers[each](a, b));
             this.client.on('message', message => this.onMessage(message));
         });
     },

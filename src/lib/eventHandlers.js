@@ -2,148 +2,77 @@ const Discord = require('discord.js'),
     config = require('../config.js');
 
 module.exports = {
-    channelCreate: async (channel) => {
+    embedLog: function(channel, timestamp, author, url, description, color, thumbnail, footer, fields, image) {
+        const embed = new Discord.MessageEmbed().setColor(color);
+        if (author) embed.setAuthor(author, url)
+        if (description) embed.setDescription(description)
+        if (thumbnail) embed.setThumbnail(url);
+        if (footer) embed.setFooter(footer);
+        if (fields) fields.forEach((field) => embed.addField(field.name, field.data));
+        if (image) embed.setImage(image);
+        if (timestamp) embed.setTimestamp();
+        channel.send(embed);
+    },
+    channelCreate: function(channel) {
         if (channel.type === 'dm') return;
-        channel.guild.channels.find(channel => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor(channel.guild.name, channel.guild.iconURL())
-            .setThumbnail(channel.guild.iconURL())
-            .setDescription(`Channel Created: ${channel.name}`)
-            .setTimestamp()
-            .setColor('#23d160'));
+        this.embedLog(channel.guild.channels.find(channel => channel.name === 'logs'), true, channel.guild.name, channel.guild.iconURL(), `Channel Created: ${channel.name}`, '#23d160', true);
     },
-    channelDelete: async (channel) => {
+    channelDelete: function(channel) {
         if (channel.type === 'dm') return;
-        channel.guild.channels.find(channel => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor(channel.guild.name, channel.guild.iconURL())
-            .setThumbnail(channel.guild.iconURL())
-            .setDescription(`Channel Deleted: ${channel.name}`)
-            .setTimestamp()
-            .setColor('#ff470f'));
+        this.embedLog(channel.guild.channels.find(channel => channel.name === 'logs'), true, channel.guild.name, channel.guild.iconURL(), `Channel Deleted: ${channel.name}`, '#ff470f', true);
     },
-    guildBanAdd: async (guild, user) => {
-        guild.channels.find(channel => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor('Member Banned', user.displayAvatarURL())
-            .setThumbnail(user.displayAvatarURL())
-            .setDescription(`<@${user.id}> ${user.username}#${user.discriminator}`)
-            .setFooter(`User ID: ${user.id}`)
-            .setTimestamp()
-            .setColor('#ff470f'));
+    guildMemberAdd: function(member) {
+        this.embedLog(member.guild.channels.find(channel => channel.name === 'logs'), true, 'Member Joined', member.user.displayAvatarURL(), `<@${member.user.id}> ${member.user.username}#${member.user.discriminator}`, '#23d160', true, `User ID: ${member.user.id}`);
     },
-    guildBanRemove: async (guild, user) => {
-        guild.channels.find(channel => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor('Member Unbanned', user.displayAvatarURL())
-            .setThumbnail(user.displayAvatarURL())
-            .setDescription(`<@${user.id}> ${user.username}#${user.discriminator}`)
-            .setFooter(`User ID: ${user.id}`)
-            .setTimestamp()
-            .setColor('#117ea6'));
+    guildMemberRemove: function(member) {
+        this.embedLog(member.guild.channels.find(channel => channel.name === 'logs'), true, 'Member Left', member.user.displayAvatarURL(), `<@${member.user.id}> ${member.user.username}#${member.user.discriminator}`, '#ff470f', true, `User ID: ${member.user.id}`);
     },
-    guildMemberAdd: async (member) => {
-        member.guild.channels.find(channel => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor('Member Joined', member.user.displayAvatarURL())
-            .setThumbnail(member.user.displayAvatarURL())
-            .setDescription(`<@${member.user.id}> ${member.user.username}#${member.user.discriminator}`)
-            .setFooter(`User ID: ${member.user.id}`)
-            .setTimestamp()
-            .setColor('#23d160'));
-    },
-    guildMemberRemove: async (member) => {
-        member.guild.channels.find(channel => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor('Member Left', member.user.displayAvatarURL())
-            .setThumbnail(member.user.displayAvatarURL())
-            .setDescription(`<@${member.user.id}> ${member.user.username}#${member.user.discriminator}`)
-            .setFooter(`User ID: ${member.user.id}`)
-            .setTimestamp()
-            .setColor('#ff470f'));
-    },
-    messageDelete: async (message) => {
+    messageDelete: function(message) {
         if (message.channel.type === 'dm') return;
-        message.guild.channels.find((channel) => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.displayAvatarURL())
-            .setDescription(`**Message sent by <@${message.author.id}> deleted in <#${message.channel.id}>**\n${message.content}`)
-            .setFooter(`User ID: ${message.author.id}`)
-            .setTimestamp()
-            .setColor('#ff470f'));
+        this.embedLog(message.guild.channels.find((channel) => channel.name === 'logs'), true, `${message.author.username}#${message.author.discriminator}`, message.author.displayAvatarURL(), `**Message sent by <@${message.author.id}> deleted in <#${message.channel.id}>**\n${message.content}`, '#ff470f', false, `User ID: ${message.author.id}`);
     },
-    messageDeleteBulk: async (messages) => {
-        messages.first().guild.channels.find((channel) => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor('Bulk Message Delete', messages.first().guild.iconURL())
-            .setDescription(`${messages.size} Messages deleted in ${messages.first().channel.name}`)
-            .setTimestamp()
-            .setColor('#ff470f'));
+    messageDeleteBulk: function(messages) {
+        this.embedLog(messages.first().guild.channels.find((channel) => channel.name === 'logs'), true, 'Bulk Message Delete', messages.first().guild.iconURL(), `${messages.size} Messages deleted in ${messages.first().channel.name}`, '#ff470f');
     },
-    messageReactionAdd: async (messageReaction, user) => {
+    messageReactionAdd: async function(messageReaction, user) {
         switch(messageReaction.emoji.name) {
             case '⭐':
-                let starBoardHasMessage = false;
                 const messageReaction2 = await messageReaction.message.guild.channels.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
                 messageReaction = messageReaction2.reactions.get('⭐');
-                await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
-                    .then((messages) => {
-                        messages.forEach((message) => {
-                            if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) starBoardHasMessage = true;
-                        });
-                    });
-                if (messageReaction.count >= config.starboardStars && !starBoardHasMessage) {
-                    messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').send(new Discord.MessageEmbed()
-                        .setColor(0x00FF00)
-                        .setAuthor(`${messageReaction.message.author.username}#${messageReaction.message.author.discriminator}`, messageReaction.message.author.avatarURL())
-                        .setFooter(`${messageReaction.count}⭐ | ${messageReaction.message.id}`)
-                        .addField('Channel', messageReaction.message.channel)
-                        .addField('Message', `[${messageReaction.message.content !== '' ? messageReaction.message : 'Jump To'}](${messageReaction.message.url})`)
-                        .setImage(messageReaction.message.attachments.first() ? messageReaction.message.attachments.first().url : ''));
-                } else await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
-                    .then((messages) => {
-                        messages.forEach((message) => {
-                            if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`${messageReaction.count}⭐ | ${messageReaction.message.id}`));
-                        });
-                    });
+                const messages = await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch();
+                let starboardMessage;
+                messages.forEach((message) => {
+                    if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) starboardMessage = message;
+                });
+                if (!starboardMessage && messageReaction.count >= config.starboardStars) this.embedLog(messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard'), false, `${messageReaction.message.author.username}#${messageReaction.message.author.discriminator}`, messageReaction.message.author.avatarURL(), false, 0x00FF00, false, `${messageReaction.count}⭐ | ${messageReaction.message.id}`, [{name: 'Channel', data: messageReaction.message.channel}, {name: 'Message', data: `[${messageReaction.message.content !== '' ? messageReaction.message : 'Jump To'}](${messageReaction.message.url})`}], messageReaction.message.attachments.first() ? messageReaction.message.attachments.first().url : '');
+                else if (starboardMessage) starboardMessage.edit(new Discord.MessageEmbed(starboardMessage.embeds[0]).setFooter(`${messageReaction.count}⭐ | ${messageReaction.message.id}`));
                 break;
         }
     },
-    messageReactionRemove: async (messageReaction, user) => {
+    messageReactionRemove: async function(messageReaction, user) {
         switch(messageReaction.emoji.name) {
             case '⭐':
-                await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch()
-                    .then((messages) => {
-                        messages.forEach(async (message) => {
-                            if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) {
-                                let messageReaction2 = await messageReaction.message.guild.channels.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
-                                const messageId = messageReaction.message.id;
-                                messageReaction = messageReaction2.reactions.get('⭐');
-                                messageReaction2 = messageReaction2.channel.messages.get(messageId);
-                                message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`${messageReaction ? messageReaction.count : 0}⭐ | ${messageReaction2.id}`));
-                            }
-                        });
-                    })
-                    .catch(console.error);
+                const messages = await messageReaction.message.guild.channels.find((channel) => channel.name === 'starboard').messages.fetch();
+                messages.forEach(async (message) => {
+                    if (message.embeds[0].footer.text.split(' | ')[1] === messageReaction.message.id) {
+                        const messageReaction2 = await messageReaction.message.guild.channels.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
+                        const messageId = messageReaction.message.id;
+                        messageReaction = messageReaction2.reactions.get('⭐');
+                        message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`${messageReaction ? messageReaction.count : 0}⭐ | ${messageReaction2.channel.messages.get(messageId).id}`));
+                    }
+                });
                 break;
         }
     },
-    messageUpdate: async (oldMessage, newMessage) => {
-        if (oldMessage.channel.type === 'dm') return;
-        if (oldMessage.content === '' || newMessage.content === '') return;
-        if (oldMessage.content === newMessage.content) return;
-        oldMessage.guild.channels.find((channel) => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor(`${newMessage.author.username}#${newMessage.author.discriminator}`, newMessage.author.displayAvatarURL())
-            .addField('Before', oldMessage.content || 'none')
-            .addField('After', newMessage.content || 'none')
-            .setFooter(`User ID: ${oldMessage.author.id}`)
-            .setTimestamp()
-            .setColor('#117ea6'));
+    messageUpdate: async function(oldMessage, newMessage) {
+        if (oldMessage.channel.type === 'dm' || oldMessage.content === newMessage.content) return;
+        newMessage = await newMessage.channel.messages.fetch(newMessage.id);
+        this.embedLog(newMessage.guild.channels.find((channel) => channel.name === 'logs'), true, `${newMessage.author.username}#${newMessage.author.discriminator}`, newMessage.author.displayAvatarURL(), false, '#117ea6', false, `User ID: ${newMessage.author.id}`, [{name: 'Before', data: oldMessage.content || 'none'}, {name: 'After', data: newMessage.content || 'none'}]);
     },
-    roleCreate: async (role) => {
-        role.guild.channels.find((channel) => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor(role.guild.name, role.guild.iconURL())
-            .setDescription(`Role Created: ${role.name}`)
-            .setTimestamp()
-            .setColor('#23d160'));
+    roleCreate: function(role) {
+        this.embedLog(role.guild.channels.find((channel) => channel.name === 'logs'), true, role.guild.name, role.guild.iconURL(), `Role Created: ${role.name}`, '#23d160');
     },
-    roleDelete: async (role) => {
-        role.guild.channels.find((channel) => channel.name === 'logs').send(new Discord.MessageEmbed()
-            .setAuthor(role.guild.name, role.guild.iconURL())
-            .setDescription(`Role Deleted: ${role.name}`)
-            .setTimestamp()
-            .setColor('#ff470f'));
+    roleDelete: function(role) {
+        this.embedLog(role.guild.channels.find((channel) => channel.name === 'logs'), true, role.guild.name, role.guild.iconURL(), `Role Deleted: ${role.name}`, '#ff470f')
     },
 };
