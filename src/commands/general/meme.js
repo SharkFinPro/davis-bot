@@ -7,7 +7,7 @@ module.exports = {
     args: "",
     command(message, bot) {
         fetch("https://meme-api.herokuapp.com/gimme").then((res) => {
-            res.text().then(body => {
+            res.text().then((body) => {
                 message.channel.send({files: [JSON.parse(body).url]});
             });
         });
