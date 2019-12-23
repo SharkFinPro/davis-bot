@@ -19,11 +19,17 @@ module.exports = {
                 const endDate = new Date(data[k].end);
                 if (startDate.getFullYear() >= today.getFullYear() && !(startDate.getFullYear() === today.getFullYear() && (startDate.getMonth() < today.getMonth() || startDate.getDate() < today.getDate())) && entries < 15) {
                     if (data[k].location !== "") {
-                        if (startDate.getDate() === endDate.getDate()) calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()} @${data[k].location} ${startDate.toLocaleTimeString().replace(/:\d+ /, " ")} > ${endDate.toLocaleTimeString().replace(/:\d+ /, " ")}`, `${data[k].summary}`);
-                        else calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()} @${data[k].location}`, `${data[k].summary}`);
+                        if (startDate.getDate() === endDate.getDate()) {
+                            calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()} @${data[k].location} ${startDate.toLocaleTimeString().replace(/:\d+ /, " ")} > ${endDate.toLocaleTimeString().replace(/:\d+ /, " ")}`, `${data[k].summary}`);
+                        } else {
+                            calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()} @${data[k].location}`, `${data[k].summary}`);
+                        }
                     } else {
-                        if (startDate.getDate() === endDate.getDate()) calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()} ${startDate.toLocaleTimeString().replace(/:\d+ /, " ")} > ${endDate.toLocaleTimeString().replace(/:\d+ /, " ")}`, `${data[k].summary}`);
-                        else calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()}`, `${data[k].summary}`);
+                        if (startDate.getDate() === endDate.getDate()) {
+                            calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()} ${startDate.toLocaleTimeString().replace(/:\d+ /, " ")} > ${endDate.toLocaleTimeString().replace(/:\d+ /, " ")}`, `${data[k].summary}`);
+                        } else {
+                            calendar.addField(`${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()}`, `${data[k].summary}`);
+                        }
                     }
                     entries++;
                 }

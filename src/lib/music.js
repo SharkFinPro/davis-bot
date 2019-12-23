@@ -16,45 +16,75 @@ module.exports = class music {
     }
 
     skip(message) {
-        if (!message.member.voice.channel) return message.reply("Please be in a voice channel first!");
-        if (this.queue.songs.length === 0) return message.channel.send("No songs are in the queue!");
+        if (!message.member.voice.channel) {
+            return message.reply("Please be in a voice channel first!");
+        }
+        if (this.queue.songs.length === 0) {
+            return message.channel.send("No songs are in the queue!");
+        }
         this.queue.dispatcher.end();
-        if (this.queue.songs.length > 0) message.channel.send("Skipped Current Song!");
+        if (this.queue.songs.length > 0) {
+            message.channel.send("Skipped Current Song!");
+        }
     }
 
     pause(message) {
-        if (!message.member.voice.channel) return message.reply("Please be in a voice channel first!");
-        if (!this.queue.playing) return message.channel.send("No song is currently playing!");
-        if (this.queue.dispatcher.paused) return message.channel.send("Music is currently paused!");
+        if (!message.member.voice.channel) {
+            return message.reply("Please be in a voice channel first!");
+        }
+        if (!this.queue.playing) {
+            return message.channel.send("No song is currently playing!");
+        }
+        if (this.queue.dispatcher.paused) {
+            return message.channel.send("Music is currently paused!");
+        }
         this.queue.dispatcher.pause();
         this.queue.playing = false;
         message.channel.send("Paused Current Song!");
     }
 
     resume(message) {
-        if (!message.member.voice.channel) return message.reply("Please be in a voice channel first!");
-        if (this.queue.length === 0) return message.channel.send("The queue is empty!");
-        if (!this.queue.dispatcher.paused) return message.channel.send("Music is currently playing!");
+        if (!message.member.voice.channel) {
+            return message.reply("Please be in a voice channel first!");
+        }
+        if (this.queue.length === 0) {
+            return message.channel.send("The queue is empty!");
+        }
+        if (!this.queue.dispatcher.paused) {
+            return message.channel.send("Music is currently playing!");
+        }
         this.queue.dispatcher.resume();
         this.queue.playing = true;
         message.channel.send("Resumed Current Song!");
     }
 
     setVolume(message, volume) {
-        if (!message.member.voice.channel) return message.reply("Please be in a voice channel first!");
-        if (!this.queue.playing) return message.channel.send("No song is currently playing!");
+        if (!message.member.voice.channel) {
+            return message.reply("Please be in a voice channel first!");
+        }
+        if (!this.queue.playing) {
+            return message.channel.send("No song is currently playing!");
+        }
         this.queue.dispatcher.setVolume(volume / 100);
         message.channel.send(`Set volume to ${this.queue.dispatcher.volume * 100}%`);
     }
 
     async addSong(message, id) {
-        if (!message.member.voice.channel) return message.reply("Please be in a voice channel first!");
+        if (!message.member.voice.channel) {
+            return message.reply("Please be in a voice channel first!");
+        }
         const voiceChannel = message.member.voice.channel;
 
-        if (!voiceChannel.permissionsFor(message.client.user).has("CONNECT")) return message.channel.send("I cannot connect to this voice channel!");
-        if (!voiceChannel.permissionsFor(message.client.user).has("SPEAK")) return message.channel.send("I cannot speak in this voice channel!");
+        if (!voiceChannel.permissionsFor(message.client.user).has("CONNECT")) {
+            return message.channel.send("I cannot connect to this voice channel!");
+        }
+        if (!voiceChannel.permissionsFor(message.client.user).has("SPEAK")) {
+            return message.channel.send("I cannot speak in this voice channel!");
+        }
 
-        if (!await ytdl.validateID(id) && !await ytdl.validateURL(id)) return message.channel.send(`Cannot find song **${id}**`);
+        if (!await ytdl.validateID(id) && !await ytdl.validateURL(id)) {
+            return message.channel.send(`Cannot find song **${id}**`);
+        }
         const song = await ytdl.getInfo(id);
         if (this.queue.songs.length === 0) {
             this.queue.textChannel = message.channel;

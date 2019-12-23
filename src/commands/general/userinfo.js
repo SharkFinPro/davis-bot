@@ -7,7 +7,7 @@ module.exports = {
     args: ["user"],
     command(message, bot) {
         const user = message.mentions.users.first() ? message.mentions.users.first() : message.author,
-            presence = (message.author.id === user.id && user.presence.status === "offline") ? "invisible" : user.presence.status;
+            presence = message.author.id === user.id && user.presence.status === "offline" ? "invisible" : user.presence.status;
         message.channel.send(new Discord.MessageEmbed()
             .setColor("#0FF0FF")
             .setThumbnail(user.displayAvatarURL())

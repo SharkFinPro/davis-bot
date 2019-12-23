@@ -7,6 +7,6 @@ module.exports = {
     args: ["sides"],
     command(message, bot) {
         const diceSides = Math.floor(message.content.toLowerCase().split(" ")[1]) || 6;
-        message.channel.send(`The die rolled a ${Math.floor((Math.random() * diceSides) + 1)}!`);
+        message.channel.send(`The die rolled a ${Math.floor(Math.random() * diceSides + 1)}!`);
     }
 };
