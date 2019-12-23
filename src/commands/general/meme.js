@@ -6,6 +6,8 @@ module.exports = {
     type: "general",
     args: "",
     command(message, bot) {
-        fetch("https://meme-api.herokuapp.com/gimme").then((res) => res.text().then(body => message.channel.send({files: [JSON.parse(body).url]})));
+        fetch("https://meme-api.herokuapp.com/gimme").then((res) => {
+            res.text().then(body => message.channel.send({files: [JSON.parse(body).url]}));
+        });
     }
 };
