@@ -12,8 +12,8 @@ const bot = {
         for (const dir of directories) {
             const files = await readdirAsync(`./src/commands/${dir}`);
             for (const f of files) {
-                const command = require(`./commands/${dir}/${f}`);
-                this.commandList[f.split(".js").join("")] = command;
+                const command = `./commands/${dir}/${f}`;
+                this.commandList[f.split(".js").join("")] = require(command);
             }
         }
         this.client.login(this.config.token);
