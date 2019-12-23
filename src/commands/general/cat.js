@@ -5,11 +5,8 @@ module.exports = {
     description: "Shows a random cat picture",
     type: "general",
     args: "",
-    command(message, bot) {
-        fetch("https://api.thecatapi.com/v1/images/search").then((res) => {
-            res.text().then((body) => {
-                message.channel.send({files: [JSON.parse(body)[0].url]});
-            });
-        });
+    async command(message, bot) {
+        const msg = await bot.fetchURL("https://api.thecatapi.com/v1/images/search");
+        message.channel.send({files: [msg[0].url]});
     }
 };

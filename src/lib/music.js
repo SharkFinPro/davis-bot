@@ -10,17 +10,26 @@ module.exports = class music {
         };
     }
 
+    canPlay(message) {
+        if (!message.member.voice.channel) {
+            message.reply("Please be in a voice channel first!");
+            return false;
+        }
+        if (this.queue.songs.length === 0) {
+            message.channel.send("No song is currently playing!");
+            return false;
+        }
+        return true;
+    }
+
     clearQueue() {
         this.queue.songs = [];
         this.queue.dispatcher.end();
     }
 
     skip(message) {
-        if (!message.member.voice.channel) {
-            return message.reply("Please be in a voice channel first!");
-        }
-        if (this.queue.songs.length === 0) {
-            return message.channel.send("No songs are in the queue!");
+        if (!this.canPlay(message)) {
+            return;
         }
         this.queue.dispatcher.end();
         if (this.queue.songs.length > 0) {
@@ -29,11 +38,8 @@ module.exports = class music {
     }
 
     pause(message) {
-        if (!message.member.voice.channel) {
-            return message.reply("Please be in a voice channel first!");
-        }
-        if (!this.queue.playing) {
-            return message.channel.send("No song is currently playing!");
+        if (!this.canPlay(message)) {
+            return;
         }
         if (this.queue.dispatcher.paused) {
             return message.channel.send("Music is currently paused!");
@@ -44,11 +50,8 @@ module.exports = class music {
     }
 
     resume(message) {
-        if (!message.member.voice.channel) {
-            return message.reply("Please be in a voice channel first!");
-        }
-        if (this.queue.length === 0) {
-            return message.channel.send("The queue is empty!");
+        if (!this.canPlay(message)) {
+            return;
         }
         if (!this.queue.dispatcher.paused) {
             return message.channel.send("Music is currently playing!");
@@ -59,11 +62,8 @@ module.exports = class music {
     }
 
     setVolume(message, volume) {
-        if (!message.member.voice.channel) {
-            return message.reply("Please be in a voice channel first!");
-        }
-        if (!this.queue.playing) {
-            return message.channel.send("No song is currently playing!");
+        if (!this.canPlay(message)) {
+            return;
         }
         this.queue.dispatcher.setVolume(volume / 100);
         message.channel.send(`Set volume to ${this.queue.dispatcher.volume * 100}%`);

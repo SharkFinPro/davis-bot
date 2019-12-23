@@ -1,20 +1,27 @@
 const Discord = require("discord.js"),
     eventHandlers = require("./lib/eventHandlers.js"),
-    readdirAsync = require("util").promisify(require("fs").readdir);
+    fs = require("fs");
 
 const bot = {
     client: new Discord.Client({partials: ["MESSAGE"]}),
     music: new (require("./lib/music.js"))(),
     commandList: {},
     config: require("./config.js"),
+    async fetchURL(url) {
+        const data = await (require("node-fetch")(url));
+        const body = await data.text();
+        return JSON.parse(body);
+    },
     async initBot() {
-        const directories = await readdirAsync("./src/commands");
-        for (const dir of directories) {
-            const files = await readdirAsync(`./src/commands/${dir}`);
-            for (const f of files) {
-                this.commandList[f.split(".js").join("")] = require(`./commands/${dir}/${f}`);
+        fs.readdir("./src/commands", (err, directories) => {
+            for (const dir of directories) {
+                fs.readdir(`./src/commands/${dir}`, (err, files) => {
+                    for (const f of files) {
+                        this.commandList[f.split(".js").join("")] = require(`./commands/${dir}/${f}`);
+                    }
+                });
             }
-        }
+        });
         this.client.login(this.config.token);
         this.client.on("error", console.error);
         this.client.on("ready", async() => {
@@ -30,15 +37,14 @@ const bot = {
             });
         });
     },
-    onMessage(message) {
+    async onMessage(message) {
         if (message.author.bot) {
             return;
         }
         if (message.channel.type === "dm") {
             message.channel.startTyping();
-            require("node-fetch")(`https://some-random-api.ml/chatbot?message=${message.content}`).then((res) => {
-                res.text().then((body) => message.channel.send(JSON.parse(body).response));
-            });
+            const msg = await this.fetchURL(`https://some-random-api.ml/chatbot?message=${message.content}`);
+            message.channel.send(msg.response);
             message.channel.stopTyping();
         }
         if (message.channel.type !== "text") {
