@@ -78,8 +78,6 @@ module.exports = class music {
         if (this.queue.songs.length === 0) {
             this.queue.textChannel.send("Queue Concluded");
             this.queue.voiceChannel.leave();
-            this.queue.textChannel = undefined;
-            this.queue.voiceChannel = undefined;
             this.queue.playing = false;
             return;
         }
