@@ -110,15 +110,7 @@ module.exports = class music {
             return;
         }
         this.queue.voiceChannel.join().then((connection) => {
-            this.queue.dispatcher = connection.play(ytdl(song.video_url, {
-                quality: "highestaudio",
-                filter: "audioonly"
-            }), {
-                seek: 0,
-                volume: this.queue.volume,
-                passes: 2,
-                bitrate: "auto"
-            })
+            this.queue.dispatcher = connection.play(ytdl(song.video_url, {quality: "highestaudio", filter: "audioonly"}), {seek: 0, volume: this.queue.volume, passes: 2, bitrate: "auto"})
                 .on("end", (reason) => {
                     this.queue.songs.shift();
                     this.play(guild, this.queue.songs[0]);

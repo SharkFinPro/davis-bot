@@ -22,7 +22,9 @@ const bot = {
             this.client.user.setActivity(`${this.config.prefix}help`);
             console.log(`Logged in as ${this.client.user.tag}`);
             for (const each in eventHandlers) {
-                this.client.on(each, (a, b) => eventHandlers[each](a, b));
+                if ({}.hasOwnProperty.call(eventHandlers, each)) {
+                    this.client.on(each, (a, b) => eventHandlers[each](a, b));
+                }
             }
             this.client.on("message", (message) => {
                 this.onMessage(message);
