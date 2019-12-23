@@ -1,12 +1,9 @@
-const ytdl = require('ytdl-core');
+const ytdl = require("ytdl-core");
 
 module.exports = class music {
     constructor(server) {
         this.server = server;
         this.queue = {
-            textChannel: undefined,
-            voiceChannel: undefined,
-            dispatcher: undefined,
             songs: [],
             volume: 1,
             playing: false
@@ -28,7 +25,7 @@ module.exports = class music {
     pause(message) {
         if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
         if (!this.queue.playing) return message.channel.send(`No song is currently playing!`);
-        if (this.queue.dispatcher.paused) return message.channel.send('Music is currently paused!');
+        if (this.queue.dispatcher.paused) return message.channel.send("Music is currently paused!");
         this.queue.dispatcher.pause();
         this.queue.playing = false;
         message.channel.send("Paused Current Song!");
@@ -37,7 +34,7 @@ module.exports = class music {
     resume(message) {
         if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
         if (this.queue.length === 0) return message.channel.send(`The queue is empty!`);
-        if (!this.queue.dispatcher.paused) return message.channel.send('Music is currently playing!');
+        if (!this.queue.dispatcher.paused) return message.channel.send("Music is currently playing!");
         this.queue.dispatcher.resume();
         this.queue.playing = true;
         message.channel.send("Resumed Current Song!");
@@ -54,8 +51,8 @@ module.exports = class music {
         if (!message.member.voice.channel) return message.reply(`Please be in a voice channel first!`);
         const voiceChannel = message.member.voice.channel;
 
-        if (!voiceChannel.permissionsFor(message.client.user).has('CONNECT')) return message.channel.send(`I cannot connect to this voice channel!`);
-        if (!voiceChannel.permissionsFor(message.client.user).has('SPEAK')) return message.channel.send(`I cannot speak in this voice channel!`);
+        if (!voiceChannel.permissionsFor(message.client.user).has("CONNECT")) return message.channel.send(`I cannot connect to this voice channel!`);
+        if (!voiceChannel.permissionsFor(message.client.user).has("SPEAK")) return message.channel.send(`I cannot speak in this voice channel!`);
 
         if (!await ytdl.validateID(id) && !await ytdl.validateURL(id)) return message.channel.send(`Cannot find song **${id}**`);
         const song = await ytdl.getInfo(id);
@@ -79,7 +76,7 @@ module.exports = class music {
 
     play(guild, song) {
         if (this.queue.songs.length === 0) {
-            this.queue.textChannel.send('Queue Concluded');
+            this.queue.textChannel.send("Queue Concluded");
             this.queue.voiceChannel.leave();
             this.queue.textChannel = undefined;
             this.queue.voiceChannel = undefined;
@@ -88,19 +85,19 @@ module.exports = class music {
         }
         this.queue.voiceChannel.join().then((connection) => {
             this.queue.dispatcher = connection.play(ytdl(song.video_url, {
-                quality: 'highestaudio',
-                filter: 'audioonly'
+                quality: "highestaudio",
+                filter: "audioonly"
             }), {
                 seek: 0,
                 volume: this.queue.volume,
                 passes: 2,
-                bitrate: 'auto'
+                bitrate: "auto"
             })
-            .on('end', (reason) => {
+            .on("end", (reason) => {
                 this.queue.songs.shift();
                 this.play(guild, this.queue.songs[0]);
             })
-            .on('error', console.error);
+            .on("error", console.error);
             this.queue.playing = true;
             this.queue.textChannel.send(`Started playing: **${song.title}**`);
         });

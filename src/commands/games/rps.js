@@ -1,10 +1,10 @@
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 
 module.exports = {
     enabled: true,
-    description: 'Play rock paper scissors with me',
-    type: 'games',
-    args: ['choice'],
+    description: "Play rock paper scissors with me",
+    type: "games",
+    args: ["choice"],
     getWinner: function(c1, c2) {
         if (c1 === "rock") {
             if (c2 === "rock") return 2;
@@ -20,7 +20,7 @@ module.exports = {
         return 2;
     },
     command: function(message, bot) {
-        const args = message.content.toLowerCase().split(' ');
+        const args = message.content.toLowerCase().split(" ");
         let choice;
         if (args[1]) if (args[1].toLowerCase() === "rock" || args[1].toLowerCase() === "paper" || args[1].toLowerCase() === "scissors") choice = args[1].toLowerCase();
         if (!(choice === "rock" || choice === "paper" || choice === "scissors")) return message.channel.send("Please choose either rock, paper, or scissors!");

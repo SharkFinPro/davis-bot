@@ -9,7 +9,7 @@
   "author": "Alex Martin",
   "license": "ISC",
   "engines": {
-    "node": "12.13.1"
+    "node": "12.14.0"
   },
   "dependencies": {
     "bufferutil": "^4.0.1",
