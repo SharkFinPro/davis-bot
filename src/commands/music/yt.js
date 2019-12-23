@@ -20,7 +20,7 @@ module.exports = {
                 .setColor(0x008B00)
                 .setTitle(`Top 5 results for **${message.content.split(" ").splice(1).join(" ")}**`);
             for (let i = 0; i < results.length; i++) {
-                embed.addField(`**${i+1}**) **${results[i].snippet.title}**`, "https://www.youtube.com/watch?v=" + results[i].id.videoId);
+                embed.addField(`**${i + 1}**) **${results[i].snippet.title}**`, `https://www.youtube.com/watch?v=${results[i].id.videoId}`);
             }
             message.channel.send(embed).then(async (msg) => {
                 const filter = (reaction, user) => user.id === message.author.id;

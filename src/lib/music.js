@@ -93,8 +93,6 @@ module.exports = class music {
             try {
                 this.play(message.guild, this.queue.songs[0]);
             } catch (error) {
-                this.queue.textChannel = undefined;
-                this.queue.voiceChannel = undefined;
                 this.queue.songs = [];
                 return message.channel.send(`Failed to join voice channel ${error}`);
             }
@@ -121,11 +119,11 @@ module.exports = class music {
                 passes: 2,
                 bitrate: "auto"
             })
-            .on("end", (reason) => {
-                this.queue.songs.shift();
-                this.play(guild, this.queue.songs[0]);
-            })
-            .on("error", console.error);
+                .on("end", (reason) => {
+                    this.queue.songs.shift();
+                    this.play(guild, this.queue.songs[0]);
+                })
+                .on("error", console.error);
             this.queue.playing = true;
             this.queue.textChannel.send(`Started playing: **${song.title}**`);
         });

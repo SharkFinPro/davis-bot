@@ -16,7 +16,7 @@ module.exports = {
                 if (!commands[bot.commandList[each].type]) {
                     commands[bot.commandList[each].type] = [];
                 }
-                commands[bot.commandList[each].type].push(bot.config.prefix + each + (bot.commandList[each].args === "" ? "" : " [" + bot.commandList[each].args.join("] [") + "]") + ": " + bot.commandList[each].description);
+                commands[bot.commandList[each].type].push(`${bot.config.prefix}${each}${bot.commandList[each].args === "" ? "" : ` [${bot.commandList[each].args.join("] [")}]`}: ${bot.commandList[each].description}`);
             }
         }
         const embed = new Discord.MessageEmbed()

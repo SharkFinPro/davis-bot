@@ -10,9 +10,10 @@ const bot = {
     async initBot() {
         const directories = await readdirAsync("./src/commands");
         for (const dir of directories) {
-            const files = await readdirAsync("./src/commands/" + dir);
+            const files = await readdirAsync(`./src/commands/${dir}`);
             for (const f of files) {
-                this.commandList[f.split(".js").join("")] = require("./commands/" + dir + "/" + f);
+                const command = require(`./commands/${dir}/${f}`);
+                this.commandList[f.split(".js").join("")] = command;
             }
         }
         this.client.login(this.config.token);

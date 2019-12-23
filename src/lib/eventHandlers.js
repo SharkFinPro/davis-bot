@@ -97,5 +97,5 @@ module.exports = {
     },
     roleDelete(role) {
         this.embedLog(role.guild.channels.find((channel) => channel.name === "logs"), true, role.guild.name, role.guild.iconURL(), `Role Deleted: ${role.name}`, "#ff470f");
-    },
+    }
 };
