@@ -7,7 +7,7 @@ const bot = {
     music: new (require("./lib/music.js"))(),
     commandList: {},
     config: require("./config.js"),
-    initBot: async function() {
+    async initBot() {
         const directories = await readdirAsync("./src/commands");
         for (const dir of directories) {
             const files = await readdirAsync("./src/commands/" + dir);
@@ -22,11 +22,11 @@ const bot = {
             this.client.on("message", message => this.onMessage(message));
         });
     },
-    onMessage: function(message) {
+    onMessage(message) {
         if (message.author.bot) return;
         if (message.channel.type === "dm") {
             message.channel.startTyping();
-            require("node-fetch")(`https://some-random-api.ml/chatbot?message=${message.content}`).then(res => res.text().then(body => message.channel.send(JSON.parse(body).response)));
+            require("node-fetch")(`https://some-random-api.ml/chatbot?message=${message.content}`).then((res) => res.text().then(body => message.channel.send(JSON.parse(body).response)));
             message.channel.stopTyping();
         }
         if (message.channel.type !== "text") return;

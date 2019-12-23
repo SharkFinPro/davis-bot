@@ -5,7 +5,7 @@ module.exports = {
     description: "Flip a coin",
     type: "games",
     args: "",
-    command: (message, bot) => {
+    command(message, bot) {
         message.channel.send(Math.floor((Math.random() * 2)) === 0 ? "Heads!" : "Tails!");
     }
 };

@@ -3,5 +3,7 @@ module.exports = {
     description: "Pauses current song",
     type: "music",
     args: "",
-    command: (message, bot) => bot.music.pause(message)
+    command(message, bot) {
+        bot.music.pause(message);
+    }
 };

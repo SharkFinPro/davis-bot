@@ -5,7 +5,7 @@ module.exports = {
     description: "Display info about a specified user",
     type: "general",
     args: ["user"],
-    command: (message, bot) => {
+    command(message, bot) {
         const user = message.mentions.users.first() ? message.mentions.users.first() : message.author,
             presence = (message.author.id === user.id && user.presence.status === "offline") ? "invisible" : user.presence.status;
         message.channel.send(new Discord.MessageEmbed()

@@ -5,7 +5,7 @@ module.exports = {
     description: "Play rock paper scissors with me",
     type: "games",
     args: ["choice"],
-    getWinner: function(c1, c2) {
+    getWinner(c1, c2) {
         if (c1 === "rock") {
             if (c2 === "rock") return 2;
             else if (c2 === "paper") return 1;
@@ -19,7 +19,7 @@ module.exports = {
         else if (c2 === "paper") return 0;
         return 2;
     },
-    command: function(message, bot) {
+    command(message, bot) {
         const args = message.content.toLowerCase().split(" ");
         let choice;
         if (args[1]) if (args[1].toLowerCase() === "rock" || args[1].toLowerCase() === "paper" || args[1].toLowerCase() === "scissors") choice = args[1].toLowerCase();

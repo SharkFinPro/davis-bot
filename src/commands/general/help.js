@@ -5,7 +5,7 @@ module.exports = {
     description: "Shows list of commands",
     type: "general",
     args: "",
-    command: (message, bot) => {
+    command(message, bot) {
         const commands = {};
         const commandTypes = [];
         for (const each in bot.commandList) {

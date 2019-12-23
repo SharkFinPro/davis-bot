@@ -5,7 +5,7 @@ module.exports = {
     description: "Display info about the server",
     type: "general",
     args: "",
-    command: (message, bot) => {
+    command(message, bot) {
         message.channel.send(new Discord.MessageEmbed()
             .setColor(0x1E90FF)
             .setThumbnail(message.guild.iconURL())

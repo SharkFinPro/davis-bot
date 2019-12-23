@@ -5,7 +5,7 @@ module.exports = {
     description: "Displays queue",
     type: "music",
     args: "",
-    command: (message, bot) => {
+    command(message, bot) {
         const queue = bot.music.queue.songs;
         if (queue.length === 0) return message.channel.send("The queue is empty!");
         const embed = new Discord.MessageEmbed()
