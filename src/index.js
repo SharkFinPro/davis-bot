@@ -8,7 +8,7 @@ const bot = {
     commandList: {},
     config: require("./config.js"),
     async fetchURL(url) {
-        const data = await (require("node-fetch")(url));
+        const data = await require("node-fetch")(url);
         const body = await data.text();
         return JSON.parse(body);
     },
