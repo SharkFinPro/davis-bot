@@ -44,7 +44,7 @@ const bot = {
     if (message.channel.type === "dm") {
       message.channel.startTyping();
       const msg = await this.fetchURL(`https://some-random-api.ml/chatbot?message=${message.content}`);
-      message.channel.send(msg.response);
+      message.channel.send(msg.response || "The chat API is down.");
       message.channel.stopTyping();
     }
     if (message.channel.type !== "text") {

@@ -10,8 +10,11 @@ module.exports = {
   enabled: true,
   description: "Unlock/Lock Patrol Rooms",
   args: "",
-  type: "general",
+  type: "mod",
   command(message, bot) {
+    if (!message.guild.members.get(message.author.id).hasPermission("MANAGE_MESSAGES")) {
+      return message.reply("You do not have permissions to use this command.");
+    }
     let toggle = false;
     for (let p of patrols) {
       let patrol = message.guild.roles.cache.find((role) => role.name === p[0]);
