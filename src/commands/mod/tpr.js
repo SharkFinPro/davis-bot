@@ -12,7 +12,7 @@ module.exports = {
   args: "",
   type: "mod",
   command(message, bot) {
-    if (!message.guild.members.get(message.author.id).hasPermission("MANAGE_MESSAGES")) {
+    if (!message.guild.members.cache.get(message.author.id).hasPermission("MANAGE_MESSAGES")) {
       return message.reply("You do not have permissions to use this command.");
     }
     let toggle = false;
