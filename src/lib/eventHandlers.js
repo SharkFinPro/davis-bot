@@ -57,7 +57,7 @@ module.exports = {
   async messageReactionAdd(messageReaction, user) {
     if (messageReaction.emoji.name === "⭐") {
       const messageReaction2 = await messageReaction.message.guild.channels.cache.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
-      messageReaction = messageReaction2.reactions.get("⭐");
+      messageReaction = messageReaction2.reactions.cache.get("⭐");
       const messages = await messageReaction.message.guild.channels.cache.find((channel) => channel.name === "starboard").messages.fetch();
       let starboardMessage;
       messages.forEach((message) => {
@@ -78,9 +78,8 @@ module.exports = {
       messages.forEach(async (message) => {
         if (message.embeds[0].footer.text.split(" | ")[1] === messageReaction.message.id) {
           const messageReaction2 = await messageReaction.message.guild.channels.cache.find((channel) => channel.name === messageReaction.message.channel.name).messages.fetch(messageReaction.message.id);
-          const messageId = messageReaction.message.id;
-          messageReaction = messageReaction2.reactions.get("⭐");
-          message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`${messageReaction ? messageReaction.count : 0}⭐ | ${messageReaction2.channel.messages.get(messageId).id}`));
+          messageReaction = messageReaction2.reactions.cache.get("⭐");
+          message.edit(new Discord.MessageEmbed(message.embeds[0]).setFooter(`${messageReaction ? messageReaction.count : 0}⭐ | ${messageReaction.message.id}`));
         }
       });
     }

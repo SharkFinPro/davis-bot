@@ -1,18 +1,19 @@
 const Discord = require("discord.js"),
   eventHandlers = require("./lib/eventHandlers.js"),
-  fs = require("fs");
+  fs = require("fs"),
+  fetch = require("node-fetch");
 
 const bot = {
-  client: new Discord.Client({partials: ["MESSAGE"]}),
+  client: new Discord.Client({partials: ["MESSAGE", "REACTION"]}),
   music: new (require("./lib/music.js"))(),
   commandList: {},
   config: require("./config.js"),
   async fetchURL(url) {
-    const data = await require("node-fetch")(url);
+    const data = await fetch(url);
     const body = await data.text();
     return JSON.parse(body);
   },
-  async initBot() {
+  init() {
     fs.readdir("./src/commands", (err, directories) => {
       for (const dir of directories) {
         fs.readdir(`./src/commands/${dir}`, (err, files) => {
@@ -68,4 +69,4 @@ const bot = {
     }
     this.commandList[command].command(message, this);
   }
-}.initBot();
+}.init();
