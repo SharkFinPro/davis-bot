@@ -42,7 +42,7 @@ module.exports = {
   guildMemberAdd(member) {
     let id = member.user.id;
     if (config.welcomeMessageChannel != "") {
-      member.guild.channels.cache.find((channel) => channel.name === config.welcomeMessageChannel).send(config.welcomeMessage.replace("{user}", `<@${id}>`).replace("{break}", "\n"));
+      member.guild.channels.cache.find((channel) => channel.name === config.welcomeMessageChannel).send(config.welcomeMessage.replace(/{user}/g, `<@${id}>`).replace(/{break}/g, "\n"));
     }
     this.embedLog(member, true, "Member Joined", member.user.displayAvatarURL(), `<@${id}> ${member.user.username}#${member.user.discriminator}`, "#23d160", true, `User ID: ${member.user.id}`);
   },
