@@ -66,7 +66,7 @@ module.exports = class music {
       return;
     }
     this.queue.dispatcher.setVolume(volume / 100);
-    message.channel.send(`Set volume to ${this.queue.dispatcher.volume * 100}%`);
+    message.channel.send(`Set volume to ${volume}%`);
   }
 
   async addSong(message, id) {

@@ -40,7 +40,11 @@ module.exports = {
     this.embedLog(channel, true, channel.guild.name, channel.guild.iconURL(), `Channel Deleted: ${channel.name}`, "#ff470f", true);
   },
   guildMemberAdd(member) {
-    this.embedLog(member, true, "Member Joined", member.user.displayAvatarURL(), `<@${member.user.id}> ${member.user.username}#${member.user.discriminator}`, "#23d160", true, `User ID: ${member.user.id}`);
+    let id = member.user.id;
+    if (config.welcomeMessageChannel != "") {
+      member.guild.channels.cache.find((channel) => channel.name === config.welcomeMessageChannel).send(config.welcomeMessage.replace("{user}", `<@${id}>`));
+    }
+    this.embedLog(member, true, "Member Joined", member.user.displayAvatarURL(), `<@${id}> ${member.user.username}#${member.user.discriminator}`, "#23d160", true, `User ID: ${member.user.id}`);
   },
   guildMemberRemove(member) {
     this.embedLog(member, true, "Member Left", member.user.displayAvatarURL(), `<@${member.user.id}> ${member.user.username}#${member.user.discriminator}`, "#ff470f", true, `User ID: ${member.user.id}`);
